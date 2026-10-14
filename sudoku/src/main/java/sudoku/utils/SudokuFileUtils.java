@@ -7,6 +7,7 @@ import sudoku.model.Sudoku;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SudokuFileUtils {
@@ -75,5 +76,15 @@ public class SudokuFileUtils {
             throw new RuntimeException("Couldn't save the solution to " + solutionPath);
         }
         return solutionPath;
+    }
+
+    // ret all file names in uploads/puzzles dir
+    public static String[] listPuzzles() {
+        File folder = new File(PUZZLE_DIR);
+        folder.mkdirs();
+
+        String[] names = folder.list();
+        Arrays.sort(names);
+        return names;
     }
 }
