@@ -4,7 +4,28 @@ import sudoku.model.Sudoku;
 
 public class SudokuSolver {
     public boolean solve(Sudoku sudoku) {
+        int[] bestCell = findBestCell(sudoku);
+        if (bestCell == null){
+            return true;
+        }
 
+        int row = bestCell[0];
+        int col = bestCell[1];
+
+        for (int val = 1; val <= 9; val++) {
+            if (!sudoku.isValidPlacement(row, col, val)) {
+                continue; //keep going and checking the rest
+            }
+
+            sudoku.getCell(row, col).setValue(val);
+            if (solve(sudoku)) { //recursive calling
+                return true;
+            }
+
+            sudoku.getCell(row, col).setValue(0); //fallback incase the path was wrong, to start over
+
+        }
+        return false; //none of the numbers worked.
     }
 
     // MRV huesristic addition/optimization
