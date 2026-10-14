@@ -55,8 +55,36 @@ public class Sudoku {
     }
 
     public void printBoard(String title) {
-        System.out.println("\t\t" + title);
-        System.out.println(boardToString());
+        String line = "+-------+-------+-------+";
+
+        System.out.println("        " + title);
+        System.out.println(line);
+
+        for (int row = 0; row < 9; row++) {
+            String text = "| ";
+            for (int col = 0; col < 9; col++) {
+                int value = cells[row][col].getValue();
+
+                // show empty cells as a dot
+                if (value == 0) {
+                    text += ". ";
+                } else {
+                    text += value + " ";
+                }
+
+                // a bar after every 3 columns
+                if (col == 2 || col == 5 || col == 8) {
+                    text += "| ";
+                }
+            }
+            System.out.println(text.trim());
+
+            // a border after every 3 rows
+            if (row == 2 || row == 5 || row == 8) {
+                System.out.println(line);
+            }
+        }
+        System.out.println();
     }
 
     public String boardToString() {
