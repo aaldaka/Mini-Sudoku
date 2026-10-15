@@ -91,3 +91,5 @@ The solver uses backtracking (a depth-first search) with the MRV (Minimum Remain
 
 1. [Sudoku solving algorithms (Wikipedia)](https://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
 2. [Sudoku and Backtracking (HackerNoon)](https://hackernoon.com/sudoku-and-backtracking-6613d33229af)
+3. [Minimum number of clues to fully specify any sudoku? (Computer Science)] (https://cs.stackexchange.com/questions/163/minimum-number-of-clues-to-fully-specify-any-sudoku)
+4. [YouDoSudoku (API)] https://www.youdosudoku.com/

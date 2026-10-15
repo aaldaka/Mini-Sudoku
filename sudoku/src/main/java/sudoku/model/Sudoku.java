@@ -105,4 +105,42 @@ public class Sudoku {
         }
         return text;
     }
+
+    // how many starting numbers the puzzle has
+    public int countClues() {
+        int givenNumbers = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (!getCell(row, col).isEmpty()) {
+                    givenNumbers++;
+                }
+            }
+        }
+        return givenNumbers;
+    }
+
+    // Fallback if api doesnt work it picks from local puzzles dir based on the givem mumbers
+    public String getDifficulty() {
+        int clues = countClues();
+        if (clues >= 40){
+            return "easy";
+        }
+        if (clues >= 32){
+            return "medium";
+        }
+        return "hard";
+    }
+
+    public boolean isFull() {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (getCell(row, col).isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
 }
