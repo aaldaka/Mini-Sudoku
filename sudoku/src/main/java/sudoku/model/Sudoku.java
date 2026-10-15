@@ -25,8 +25,8 @@ public class Sudoku {
         return new Sudoku(numbers, fileName);
     }
 
-    public void saveSolution() throws FileNotFoundException {
-        SudokuFileUtils.saveSolution(this, fileName);
+    public String saveSolution(String stats){
+        return SudokuFileUtils.saveSolution(this, fileName, stats);
     }
 
     public SudokuCell getCell(int row, int col) {
@@ -59,7 +59,7 @@ public class Sudoku {
     public void printBoard(String title) {
         String line = "+-------+-------+-------+";
 
-        System.out.println("        " + title);
+        System.out.println(title);
         System.out.println(line);
 
         for (int row = 0; row < 9; row++) {
@@ -115,7 +115,7 @@ public class Sudoku {
         int givenNumbers = 0;
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                if (!getCell(row, col).isEmpty()) {
+                if (getCell(row, col).isGiven()) {
                     givenNumbers++;
                 }
             }

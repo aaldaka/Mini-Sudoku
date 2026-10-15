@@ -10,7 +10,7 @@ import java.time.Duration;
 
 public class SudokuApiClient {
 
-    private static final String API_URL = "https://youdosudoku.com/api/";
+    private static final String API_URL = "https://www.youdosudoku.com/api";
     private static final String API_KEY = System.getenv("SUDOKU_API_KEY");
 
     public static int[][] fetchPuzzle(String difficulty) throws Exception {
@@ -34,7 +34,8 @@ public class SudokuApiClient {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         //logging
-        System.out.println("API response: " + response.body());
+//        System.out.println("Redirects to: " + response.headers().firstValue("location").orElse("none"));
+//        System.out.println("API response: " + response.body());
 
         if (response.statusCode() != 200) {
             throw new Exception("API returned " + response.statusCode());

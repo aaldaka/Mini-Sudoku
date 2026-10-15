@@ -74,13 +74,18 @@ public class SudokuFileUtils {
         writer.close();
     }
 
-    public static String saveSolution(Sudoku sudoku, String fileName) {
+    public static String saveSolution(Sudoku sudoku, String fileName, String stats) {
         new File(SOLUTION_DIR).mkdirs();
+        String name = fileName.replace(".txt", "");
         String solutionPath = SOLUTION_DIR + fileName.replace(".txt", "-solution.txt");
+        String line = "==================================";
 
         try (PrintWriter writer = new PrintWriter(solutionPath)) {
+            writer.println(name + " Solved");
+            writer.println(line);
             writer.print(sudoku.boardToString()); // used in printing to console + saving to txt
-        } catch (FileNotFoundException e) {
+            writer.println(line);
+            writer.println(stats);        } catch (FileNotFoundException e) {
             throw new RuntimeException("Couldn't save the solution to " + solutionPath);
         }
         return solutionPath;

@@ -18,19 +18,38 @@ public class SudokuApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		Scanner input = new Scanner(System.in);
 
-		System.out.println("1 = Solve all puzzle files");
-		System.out.println("2 = Play");
-		String choice = input.nextLine().trim();
+		while (true) {
+			System.out.println("""
+					 ____  _   _ ____   ___  _  ___   _
+					/ ___|| | | |  _ \\ / _ \\| |/ / | | |
+					\\___ \\| | | | | | | | | | ' /| | | |
+					 ___) | |_| | |_| | |_| | . \\| |_| |
+					|____/ \\___/|____/ \\___/|_|\\_\\\\___/
+					
+					      === SUDOKU GAME ===
+					
+					  1. Solve All Puzzle Files
+					  2. Play Sudoku
+					  3. Exit
+					""");
+			System.out.print("  Enter your choice: ");
 
-		if (choice.equals("1")) {
-			solveAllFiles();
-		} else if (choice.equals("2")) {
-			new SudokuGame(input).start();
-		} else {
-			System.out.println("Unknown choice, please type 1 or 2");
+			String choice = input.nextLine().trim();
+
+			if (choice.equals("1")) {
+				solveAllFiles();
+			} else if (choice.equals("2")) {
+				new SudokuGame(input).start();
+			} else if (choice.equals("3")){
+				System.out.println("Thank you for playing, see ya!");
+				return;
+			}
+			else {
+				System.out.println("Unknown choice, please type 1 or 2");
+			}
 		}
 	}
 
@@ -41,7 +60,6 @@ public class SudokuApplication implements CommandLineRunner {
 			System.out.println("No puzzles found in uploads/puzzles");
 			return;
 		}
-
 
 		SudokuSolver solver = new SudokuSolver();
 		for (String fileName : files) {
@@ -55,10 +73,14 @@ public class SudokuApplication implements CommandLineRunner {
 				Sudoku sudoku = Sudoku.load(fileName);
 				sudoku.printBoard(name);
 
+				long startTime = System.currentTimeMillis();
 				if (solver.solve(sudoku)) {
+					long ms = System.currentTimeMillis() - startTime;
 					sudoku.printBoard(name + " Solved");
-					sudoku.saveSolution();
-				} else {
+					sudoku.saveSolution("Difficulty: " + sudoku.getDifficulty() + "\n"
+							+ "Solved by: the computer\n"
+							+ "Solved in: " + ms + " ms");
+				}else {
 					System.out.println(name + " has no solution\n");
 				}
 			} catch (Exception e) {
