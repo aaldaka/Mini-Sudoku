@@ -8,6 +8,8 @@ public class Sudoku {
 
     private final SudokuCell[][] cells = new SudokuCell[9][9];
     private final String fileName;
+    private static final String LAVENDER = "\u001B[38;2;226;178;245m";
+    private static final String RESET = "\u001B[0m";
 
     public Sudoku(int[][] numbers, String fileName) {
         this.fileName = fileName;
@@ -68,8 +70,10 @@ public class Sudoku {
                 // show empty cells as a dot
                 if (value == 0) {
                     text += ". ";
-                } else {
+                } else if (cells[row][col].isGiven()) {
                     text += value + " ";
+                } else {
+                    text += LAVENDER + value + RESET + " ";
                 }
 
                 // a bar after every 3 columns
