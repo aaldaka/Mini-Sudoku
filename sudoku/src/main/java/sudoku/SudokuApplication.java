@@ -4,8 +4,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sudoku.model.Sudoku;
+import sudoku.solver.SudokuGame;
 import sudoku.solver.SudokuSolver;
 import sudoku.utils.SudokuFileUtils;
+
+import java.util.Scanner;
 
 @SpringBootApplication
 public class SudokuApplication implements CommandLineRunner {
@@ -16,12 +19,29 @@ public class SudokuApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("1 = Solve all puzzle files");
+		System.out.println("2 = Play");
+		String choice = input.nextLine().trim();
+
+		if (choice.equals("1")) {
+			solveAllFiles();
+		} else if (choice.equals("2")) {
+			new SudokuGame(input).start();
+		} else {
+			System.out.println("Unknown choice, please type 1 or 2");
+		}
+	}
+
+	private void solveAllFiles() {
 		String[] files = SudokuFileUtils.listPuzzles();
 
 		if (files.length == 0) {
 			System.out.println("No puzzles found in uploads/puzzles");
 			return;
 		}
+
 
 		SudokuSolver solver = new SudokuSolver();
 		for (String fileName : files) {
@@ -46,7 +66,6 @@ public class SudokuApplication implements CommandLineRunner {
 			}
 
 			System.out.println("=========================================\n");
-
 		}
 	}
 }

@@ -66,6 +66,14 @@ public class SudokuFileUtils {
         return number;
     }
 
+    // for online retrieved puzzles
+    public static void savePuzzle(Sudoku sudoku, String fileName) throws FileNotFoundException {
+        new File(PUZZLE_DIR).mkdirs();
+        PrintWriter writer = new PrintWriter(PUZZLE_DIR + fileName);
+        writer.print(sudoku.boardToString());
+        writer.close();
+    }
+
     public static String saveSolution(Sudoku sudoku, String fileName) {
         new File(SOLUTION_DIR).mkdirs();
         String solutionPath = SOLUTION_DIR + fileName.replace(".txt", "-solution.txt");
@@ -86,5 +94,13 @@ public class SudokuFileUtils {
         String[] names = folder.list();
         Arrays.sort(names);
         return names;
+    }
+
+    public static String nextOnlineName() {
+        int number = 1;
+        while (new File(PUZZLE_DIR + "puzzle" + number + "-online.txt").exists()) {
+            number++;
+        }
+        return "puzzle" + number + "-online.txt";
     }
 }
