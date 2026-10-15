@@ -56,7 +56,7 @@ public class SudokuGame {
             String fileName = SudokuFileUtils.nextOnlineName();
             Sudoku sudoku = new Sudoku(numbers, fileName);
             SudokuFileUtils.savePuzzle(sudoku, fileName);
-            System.out.println("Got a new puzzle online! Saved as " + fileName);
+            System.out.println("Retrieved a new puzzle. Saved as " + fileName);
             return sudoku;
         } catch (Exception e) {
             System.out.println("Couldn't get an online puzzle (" + e.getMessage() + "), using a local one");
@@ -93,16 +93,32 @@ public class SudokuGame {
         System.out.println("How to play:");
         System.out.println("  row col value   e.g. 1 3 4 puts a 4 in row 1, column 3");
         System.out.println("  row col 0       clears a cell");
-        System.out.println("  solve           let the computer finish it");
-        System.out.println("  quit            give up");
+        System.out.println("  ?               options: continue, let the computer solve it, or quit");
+        System.out.println("  (shortcuts: type 'solve' or 'quit' directly)");
         System.out.println();
 
         LocalTime start = LocalTime.now();
-
         while (!sudoku.isFull()) {
             sudoku.printBoard("Difficulty: " + difficulty);
             System.out.print("> ");
             String line = input.nextLine().trim().toLowerCase();
+
+            // "?" opens the options menu
+            if (line.equals("?")) {
+                System.out.println("1 = Continue playing");
+                System.out.println("2 = Let the computer solve it");
+                System.out.println("3 = Quit");
+                System.out.print("> ");
+                String option = input.nextLine().trim();
+
+                if (option.equals("2")) {
+                    line = "solve";
+                } else if (option.equals("3")) {
+                    line = "quit";
+                } else {
+                    continue;
+                }
+            }
 
             if (line.equals("quit")) {
                 System.out.println("Thank you for playing! See ya");
@@ -111,8 +127,11 @@ public class SudokuGame {
 
             if (line.equals("solve")) {
                 if (solver.solve(sudoku)) {
+                    long seconds = LocalTime.now().toSecondOfDay() - start.toSecondOfDay();
                     sudoku.printBoard("I'll be your hero and solve it for you");
-                    System.out.println("Time: " + formatTime(LocalTime.now().toSecondOfDay() - start.toSecondOfDay()));                    return;
+                    System.out.println("Time: " + formatTime(seconds));
+                    saveResult(sudoku, difficulty, "the computer", formatTime(seconds));
+                    return;
                 }
                 System.out.println("No solution from here, try clearing some of your numbers");
                 continue;
@@ -176,6 +195,18 @@ public class SudokuGame {
 
     private String formatTime(long seconds) {
         return (seconds / 60) + " min " + (seconds % 60) + " sec";
+    }
+
+    private void saveResult(Sudoku sudoku, String difficulty, String solvedBy, String time) {
+        String stats = "Difficulty: " + difficulty + "\n"
+                + "Solved by: " + solvedBy + "\n"
+                + "Solved in: " + time;
+        try {
+            String path = sudoku.saveSolution(stats);
+            System.out.println("Solution saved to " + path);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 

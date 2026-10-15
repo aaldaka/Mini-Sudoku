@@ -1,32 +1,3 @@
-
-/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Readme · MD
 # Mini Sudoku Solver
 
 A Spring Boot console app that reads Sudoku puzzles from text files, solves them, prints each board before and after, and saves the solutions to new files. It also has a play mode where you solve a puzzle yourself, with difficulty levels, a timer, and new puzzles downloaded from an online API.
@@ -36,8 +7,13 @@ A Spring Boot console app that reads Sudoku puzzles from text files, solves them
 When the app starts, it shows a menu:
 
 ```
-1 = Solve all puzzle files
-2 = Play
+      === SUDOKU GAME ===
+
+  1. Solve All Puzzle Files
+  2. Play Sudoku
+  3. Exit
+
+  Enter your choice:
 ```
 
 ### 1. Solve all puzzle files
